@@ -51,8 +51,8 @@
 
 
 # Autores
-Automação Web - Allan de Oliveira Almeida
-Aplicação Web - Wesley ( @ayelsew )
+* Automação Web - Allan de Oliveira Almeida
+* Aplicação Web - Wesley ( @ayelsew )
 
 
 
