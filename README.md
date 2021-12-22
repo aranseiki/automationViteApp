@@ -1,10 +1,11 @@
-# RPA_Challenge
+# Automação web em aplicação CRUD 
 
 
 
 ## Introdução
-#### Esse projeto tem como propósito a divulgação do resultado de um teste de processo seletivo.
-#### No processo seletivo foi solicitado realizar um script de automação do site RPA Challenge de uma das páginas "Input Forms" ou "RPA Stock Market", ou os dois.
+#### Esse projeto tem como propósito resolver um desafio de automação em uma aplicação web.
+#### O desafio consiste em automatizar as operações CRUD na aplicação do repositório https://github.com/ayelsew/api-express-ts . 
+#### Essa aplicação web, por sua vez, é um desafio proposto em uma entrevista ao Wesley. Daí surgiu uma brincadeira de automatizar as interações.
 
 
 
@@ -42,36 +43,18 @@
 #### Abra o Visual Studio Code nessa pasta;
 #### Abra o terminal do sistema dentro do Visual Studio Code. Copie o código abaixo para o terminal e pressione Enter:
 ``` npm install selenium-webdriver ```
-``` npm install xlsx ```
+
 #### Execute o comando abaixo para efetivamente colocar em produção o script: 
-``` node .\rpa_challenge_jsversion.js ```
+``` node .\automationViteApp.js ```
 #### Para alterar as informações de preenchimento do formulário, altere as informações contidos na planilha do arquivo ``` challenge.xlsx ``` .
 
 
 
 # Autores
-Allan de Oliveira Almeida
+Automação Web - Allan de Oliveira Almeida
+Aplicação Web - Wesley ( @ayelsew )
 
 
 
 # Agradecimentos
-#### Para realizar o script foi necessário os seguintes materiais de estudo: 
-
-#### Curso de JS do Guanabara via canal Curso em vídeo:
-#### https://youtube.com/playlist?list=PLntvgXM11X6pi7mW0O4ZmfUI1xDSIbmTm
-
-#### Vídeos sobre Promises em JavaScript e Async/Await do canal Código Fonte TV:
-#### Promises em JavaScript 
-#### https://youtu.be/nRJhc6vXyK4
-#### Async / Await
-#### https://youtu.be/h0sNAXE1ozo
-
-#### Videos sobre Promises em JavaScript do canal Programador a bordo: 
-#### Promises em JavaScript 1
-#### https://youtu.be/Tvbz6u3TyjA
-#### Promises em JavaScript 2
-#### https://youtu.be/Ny4yUi4FwGg
-
-#### Além da documentação oficial do Selenium WebDriver e outros artigos.
-
-#### Meu total agradecimento à todos pelos materiais disponibilizados.
+#### Agradeço o Wesley por me deixar fazer esse desafio. :)

@@ -2,6 +2,7 @@ const webdriver = require('selenium-webdriver');
 const { By } = require('selenium-webdriver');
 
 var camposFormulario = [];
+var url = 'http://ec2-18-216-30-118.us-east-2.compute.amazonaws.com/';
 
 async function montaBase() {
 
@@ -48,7 +49,7 @@ async function abrir_navegador() {
 
 async function pegar_url() {
 
-    await navegador.get('http://ec2-18-216-30-118.us-east-2.compute.amazonaws.com/');
+    await navegador.get(url);
 
 }
 
@@ -94,11 +95,12 @@ async function executar_script() {
 
     }
 
-    function preencherData(elemento, dado) {
+    async function preencherData(elemento, dado) {
 
-        actions.click(elemento).sendKeys('12212021').perform();
-        actions.click(elemento).keyDown(webdriver.Key.ESCAPE).keyUp(webdriver.Key.ESCAPE).perform();
-        navegador.sleep(1000);
+        await elemento.setAttribute(dado)
+        // await actions.click(elemento).sendKeys(dado).perform()
+        // await actions.keyDown(webdriver.Key.ESCAPE).perform()
+        await navegador.sleep(1000);
 
     }
 
