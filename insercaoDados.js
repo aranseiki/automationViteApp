@@ -5,8 +5,8 @@ const { By } = require( 'selenium-webdriver' );
 var camposFormulario = [];
 var camposLog = [];
 var url = 'http://ec2-18-216-30-118.us-east-2.compute.amazonaws.com/';
-arquivoBase = './baseDados/base_dados.csv'
-arquivoLog = './baseDados/base_log.csv'
+arquivoBase = './baseDados/insercaoDados/base_dados.csv'
+arquivoLog = './baseDados/insercaoDados/base_log.csv'
 
 
 async function montarBase() {
