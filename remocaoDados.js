@@ -1,23 +1,23 @@
-const webdriver = require( 'selenium-webdriver' );
-const { By } = require( 'selenium-webdriver' );
+const webdriver = require( "selenium-webdriver" )
+const { By } = require( "selenium-webdriver" )
 
 
-var camposFormulario = [];
-var camposLog = [];
-var url = 'http://ec2-18-216-30-118.us-east-2.compute.amazonaws.com/';
-arquivoBase = './baseDados/remocaoDados/base_dados.csv'
-arquivoLog = './baseDados/remocaoDados/base_log.csv'
+var camposFormulario = []
+var camposLog = []
+var url = "http://ec2-18-216-30-118.us-east-2.compute.amazonaws.com/"
+arquivoBase = "./baseDados/remocaoDados/base_dados.csv"
+arquivoLog = "./baseDados/remocaoDados/base_log.csv"
 
 
 async function montarBase() {
 
     global.camposFormulario
-    const gerenciadorArquivos = require('fs')
+    const gerenciadorArquivos = require("fs")
     var linhas = ''
 
     try {
 
-        arquivo = gerenciadorArquivos.readFileSync( arquivoBase, 'utf8')
+        arquivo = gerenciadorArquivos.readFileSync( arquivoBase, "utf8")
 
     } catch (error) {
 
@@ -25,13 +25,13 @@ async function montarBase() {
 
     }
 
-    linhas = arquivo.split('\r\n')
+    linhas = arquivo.split("\r\n")
 
     for (var i = 1; i < linhas.length; i++) {
 
-        colunas = linhas[i].split(',')
+        colunas = linhas[i].split(",")
 
-        if (colunas[0] == ' ' || colunas[0] == '' ) {
+        if (colunas[0] == " " || colunas[0] == "" ) {
 
             continue
 
@@ -40,7 +40,7 @@ async function montarBase() {
         camposFormulario.push({
 
             nome: colunas[0],
-            cpf: colunas[1]
+            cpf: formatarCPF(colunas[1])
 
         });
 
@@ -62,46 +62,44 @@ async function acessarUrl() {
 
 async function executarScript() {
 
-    // global.camposLog
-    // var mensagemRodape = ''
-    var validacaoNome = false
-    var validacaoCPF = false
+    global.camposLog
 
+    await navegador.sleep( 3000 )
+    
     try{
 
         for( var i = 0; i < camposFormulario.length; i++ ) {
 
-            // mensagemRodape = ''
 
             try {
 
                 var nome = await encontrarElementoPorTexto('h4', camposFormulario[i].nome, 1)
-                validacaoNome = true
+                var validacaoNome = await true
 
             } catch (e) {
 
-                validacaoNome = false
+                var validacaoNome = await false
 
             }
 
-            if ( validacaoNome ) {
+            if ( validacaoNome == true ) {
 
                 try {
 
                     var cpf = await encontrarElementoPorTexto('p', camposFormulario[i].cpf, 1)
-                    validacaoCPF = true
+                    var validacaoCPF = await true
 
                 } catch (e) {
 
-                    validacaoCPF = false
+                    var validacaoCPF = await false
 
                 }
 
-                if ( validacaoCPF ) {
+                if( validacaoCPF == true ) {
 
                     await apagarElemento(camposFormulario[i].nome, camposFormulario[i].cpf)
 
-                } else if ( validacaoCPF == false ) {
+                } else if( validacaoCPF == false ) {
 
                     camposLog.push({
                         "nome": camposFormulario[i].nome,
@@ -191,8 +189,8 @@ async function executarScript() {
 
     async function apagarElemento( nome, cpf ) {
 
-        var botaoApagar = await ''
-        var botaoContinuarConfirmacao = await ''
+        var botaoApagar = await ""
+        var botaoContinuarConfirmacao = await ""
 
         try {
 
@@ -260,11 +258,34 @@ async function capturarErro() {
 
 }
 
+function formatarCPF(texto) {
 
-abrirNavegador()
-    .catch(capturarErro)
-    .then(montarBase)
+    var formatado = ''
+
+    formatado = texto[0] +
+                texto[1] +
+                texto[2] +
+                "." +
+                texto[3] +
+                texto[4] +
+                texto[5] +
+                "." +
+                texto[6] +
+                texto[7] +
+                texto[8] +
+                "-" +
+                texto[9] +
+                texto[10]
+
+    return formatado
+
+}
+
+
+montarBase()
+    .then(abrirNavegador)
     .then(acessarUrl)
     .then(executarScript)
     .then(gerarLog)
+    .catch(capturarErro)
     .finally(fecharNavegador)
