@@ -54,9 +54,9 @@ Juliano Barreto,302345176,52070860260,11/27/1967,06/18/2020,Atendente
 
 * O layout do arquivo ``base_dados.csv`` para ``.\basedados\remocaoDados`` é:
 
-nome,cpf
-Gilmar Pinho,31405863021
-Juliano Barreto,52070860260
+nome,cpf 
+Gilmar Pinho,31405863021 
+Juliano Barreto,52070860260 
 
 #### Abra o terminal do sistema dentro do Visual Studio Code. Copie o código abaixo para o terminal e pressione Enter:
 
