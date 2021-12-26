@@ -15,6 +15,7 @@ async function montarBase() {
     const gerenciadorArquivos = require("fs")
     var linhas = ''
 
+
     try {
 
         arquivo = gerenciadorArquivos.readFileSync( arquivoBase, "utf8")
@@ -25,7 +26,7 @@ async function montarBase() {
 
     }
 
-    linhas = arquivo.split("\r\n")
+    linhas = arquivo.split("\n")
 
     for (var i = 1; i < linhas.length; i++) {
 

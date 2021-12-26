@@ -177,7 +177,8 @@ async function gerarLog() {
 
             gerenciadorArquivos.appendFileSync( arquivoLog, [
                 camposLog[i].nome,
-                camposLog[i].rg, camposLog[i].cpf,
+                camposLog[i].rg,
+                camposLog[i].cpf,
                 camposLog[i].dataNascimento,
                 camposLog[i].dataAdmissao,
                 camposLog[i].cargo,
