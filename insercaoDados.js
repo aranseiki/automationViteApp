@@ -5,8 +5,8 @@ const { By } = require( 'selenium-webdriver' );
 var camposFormulario = [];
 var camposLog = [];
 var url = 'http://ec2-18-216-30-118.us-east-2.compute.amazonaws.com/';
-arquivoBase = './baseDados/insercaoDados/base_dados.csv'
-arquivoLog = './baseDados/insercaoDados/base_log.csv'
+arquivoBase = './baseDados/insercaoDados/baseDados.csv'
+arquivoLog = './baseDados/insercaoDados/baseLog.csv'
 
 
 async function montarBase() {
@@ -60,80 +60,82 @@ async function acessarUrl() {
 
 async function executarScript() {
 
+
     global.camposLog
-    // var mensagemRodape = ''
+    var Status = await ""
+    var Observacao = await ""
 
-    try{
+    for (var i = 0; i < camposFormulario.length; i++) {
 
-        for( var i = 0; i < camposFormulario.length; i++ ) {
+        Status = await ""
+        Observacao = await ""
 
-            // mensagemRodape = ''
+        try {
 
-            var nome = await encontrarElementoPorID( "nameInput", 1 )
-            var rg = await encontrarElementoPorID( "rgInput", 1 )
-            var cpf = await encontrarElementoPorID( "cpfInput", 1 )
-            var dataNascimento = await encontrarElementoPorID( "birthdayInput", 1 )
-            var dataAdmissao = await encontrarElementoPorID( "admissionInput", 1 )
-            var cargo = await encontrarElementoPorID( "jobroleInput", 1 )
+            var nome = await encontrarElementoPorID("nameInput", 1)
+            var rg = await encontrarElementoPorID("rgInput", 1)
+            var cpf = await encontrarElementoPorID("cpfInput", 1)
+            var dataNascimento = await encontrarElementoPorID("birthdayInput", 1)
+            var dataAdmissao = await encontrarElementoPorID("admissionInput", 1)
+            var cargo = await encontrarElementoPorID("jobroleInput", 1)
 
             await nome.click()
-            await nome.sendKeys( camposFormulario[i].nome )
+            await nome.sendKeys(camposFormulario[i].nome)
             await navegador.sleep(300)
 
             await rg.click()
-            await rg.sendKeys( camposFormulario[i].rg )
+            await rg.sendKeys(camposFormulario[i].rg)
             await navegador.sleep(300)
 
             await cpf.click()
-            await cpf.sendKeys( camposFormulario[i].cpf )
+            await cpf.sendKeys(camposFormulario[i].cpf)
             await navegador.sleep(300)
 
-            await preencherData( dataNascimento, camposFormulario[i].dataNascimento )
+            await preencherData(dataNascimento, camposFormulario[i].dataNascimento)
             await navegador.sleep(1000)
 
-            await preencherData( dataAdmissao, camposFormulario[i].dataAdmissao )
+            await preencherData(dataAdmissao, camposFormulario[i].dataAdmissao)
             await navegador.sleep(1000)
 
             await cargo.click()
-            await cargo.sendKeys( camposFormulario[i].cargo )
+            await cargo.sendKeys(camposFormulario[i].cargo)
             await navegador.sleep(300)
 
-            var botaoSalvar = await encontrarElementoPorXPath( "(//button[contains(text(), '')])[2]" )
+            var botaoSalvar = await encontrarElementoPorXPath("(//button[contains(text(), '')])[2]")
             await botaoSalvar.click()
-            await navegador.sleep( 1000 )
+            await navegador.sleep(1000)
 
-            // mensagemRodape = navegador.findElement(By.xpath("//div[contains(@class, 'fixed py-3 px-6 text-white bottom-4 right-4 rounded flex items-center')]/span")).getText()
+            Status = await "OK"
+            Observacao = await "Concluido com sucesso"
 
-            camposLog.push( {
-                "nome"              :       camposFormulario[i].nome,
-                "rg"                :       camposFormulario[i].rg,
-                "cpf"               :       camposFormulario[i].cpf,
-                "dataNascimento"    :       camposFormulario[i].dataNascimento,
-                "dataAdmissao"      :       camposFormulario[i].dataAdmissao,
-                "cargo"             :       camposFormulario[i].cargo,
-                "Status"            :       "OK",
-                "Observacao"        :       "Concluido com sucesso"
-            } )
+
+        } catch (e) {
+
+            if (Status != "OK") {
+
+                Status = await "NOK"
+                Observacao = await "Algo de errado aconteceu"
+
+            }
+
+        } finally {
+
+            camposLog.push({
+
+                "nome": camposFormulario[i].nome,
+                "rg": camposFormulario[i].rg,
+                "cpf": camposFormulario[i].cpf,
+                "dataNascimento": camposFormulario[i].dataNascimento,
+                "dataAdmissao": camposFormulario[i].dataAdmissao,
+                "cargo": camposFormulario[i].cargo,
+                "Status": Status,
+                "Observacao": Observacao
+
+            })
 
         }
 
-    } catch( e ) {
-
-        camposLog.push( {
-
-            "nome"              :       camposFormulario[i].nome,
-            "rg"                :       camposFormulario[i].rg,
-            "cpf"               :       camposFormulario[i].cpf,
-            "dataNascimento"    :       camposFormulario[i].dataNascimento,
-            "dataAdmissao"      :       camposFormulario[i].dataAdmissao,
-            "cargo"             :       camposFormulario[i].cargo,
-            "Status"            :       "NOK",
-            "Observacao"        :       "Concluido com erro"
-
-        } )
-
     }
-
 
     async function preencherData( elemento, dado ) {
 
@@ -167,15 +169,15 @@ async function executarScript() {
 async function gerarLog() {
 
     global.camposLog
-    const gerenciadorArquivos = require( 'fs' )
+    const gerenciadorArquivos = require('fs')
 
-    gerenciadorArquivos.writeFileSync( arquivoLog, [ "nome", "rg", "cpf", "dataNascimento", "dataAdmissao", "cargo", "Status", "Observacao" ].toString() + "\r\n", 'utf-8' )
+    gerenciadorArquivos.writeFileSync(arquivoLog, ["nome", "rg", "cpf", "dataNascimento", "dataAdmissao", "cargo", "Status", "Observacao"].toString() + "\r\n", 'utf-8')
 
-    for( var i = 0; i < camposLog.length; i++ ) {
+    for (var i = 0; i < camposLog.length; i++) {
 
-        try{
+        try {
 
-            gerenciadorArquivos.appendFileSync( arquivoLog, [
+            gerenciadorArquivos.appendFileSync(arquivoLog, [
                 camposLog[i].nome,
                 camposLog[i].rg,
                 camposLog[i].cpf,
@@ -184,11 +186,11 @@ async function gerarLog() {
                 camposLog[i].cargo,
                 camposLog[i].Status,
                 camposLog[i].Observacao].toString() + "\r\n",
-            'utf-8')
+                'utf-8')
 
-        } catch ( error ) {
+        } catch (error) {
 
-            console.log( error )
+            console.log(error)
 
         }
 
@@ -216,11 +218,10 @@ async function capturarErro() {
 
 }
 
-
-abrirNavegador()
-    .catch(capturarErro)
-    .then(montarBase)
+montarBase()
+    .then(abrirNavegador)
     .then(acessarUrl)
     .then(executarScript)
     .then(gerarLog)
+    .catch(capturarErro)
     .finally(fecharNavegador)

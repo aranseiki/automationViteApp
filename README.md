@@ -46,17 +46,14 @@
 
 #### Caso queira alterar as informações da base de dados, modifique as informações contidos no arquivo csv dentro do caminho ``.\basedados\`` seguido da pasta com o nome da ação que queira realizar:
 
-* O layout do arquivo ``base_dados.csv`` para ``.\basedados\insercaoDados`` é:
+* O layout do arquivo ``baseDados.csv`` para ``.\basedados\insercaoDados`` é:
 
 nome,rg,cpf,dataNascimento,dataAdmissao,cargo
 Gilmar Pinho,212212345,31405863021,10/17/1988,01/18/1972,Analista Financeiro
 Juliano Barreto,302345176,52070860260,11/27/1967,06/18/2020,Atendente
 
-* O layout do arquivo ``base_dados.csv`` para ``.\basedados\remocaoDados`` é:
+* O layout do arquivo ``baseDados.csv`` para ``.\basedados\remocaoDados`` é:
 
-nome,cpf 
-Gilmar Pinho,31405863021 
-Juliano Barreto,52070860260 
 
 #### Abra o terminal do sistema dentro do Visual Studio Code. Copie o código abaixo para o terminal e pressione Enter:
 
@@ -74,13 +71,13 @@ Para remover dados:
 
 #### Ao final do processo, um arquivo de log será gerado seguindo o mesmo critério de escolha da base de dados:
 
-* O layout do arquivo ``base_log.csv`` para ``.\basedados\insercaoDados`` é:
+* O layout do arquivo ``baseLog.csv`` para ``.\basedados\insercaoDados`` é:
 
 nome,rg,cpf,dataNascimento,dataAdmissao,cargo,Status,Observacao
 Juliano Barreto,302345176,52070860260,11/27/1967,06/18/2020,Atendente,OK,Concluido com sucesso
 Benedito Maciel,222204023,52233204689,12/08/1997,11/21/1972,Auxiliar de expedição,OK,Concluido com sucesso
 
-* O layout do arquivo ``base_log.csv`` para ``.\basedados\remocaoDados`` é:
+* O layout do arquivo ``baseLog.csv`` para ``.\basedados\remocaoDados`` é:
 
 nome,cpf,Status,Observacao
 Gilmar Pinho,314.058.630-21,NOK,Nao foi possivel encontrar o nome na pagina

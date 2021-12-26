@@ -5,8 +5,8 @@ const { By } = require( "selenium-webdriver" )
 var camposFormulario = []
 var camposLog = []
 var url = "http://ec2-18-216-30-118.us-east-2.compute.amazonaws.com/"
-arquivoBase = "./baseDados/remocaoDados/base_dados.csv"
-arquivoLog = "./baseDados/remocaoDados/base_log.csv"
+arquivoBase = "./baseDados/remocaoDados/baseDados.csv"
+arquivoLog = "./baseDados/remocaoDados/baseLog.csv"
 
 
 async function montarBase() {
@@ -63,14 +63,18 @@ async function acessarUrl() {
 
 async function executarScript() {
 
+
     global.camposLog
-
     await navegador.sleep( 3000 )
-    
-    try{
+    var Status = ""
+    var Observacao = ""
 
-        for( var i = 0; i < camposFormulario.length; i++ ) {
+    for (var i = 0; i < camposFormulario.length; i++) {
 
+        Status = ""
+        Observacao = ""
+
+        try {
 
             try {
 
@@ -83,7 +87,7 @@ async function executarScript() {
 
             }
 
-            if ( validacaoNome == true ) {
+            if( validacaoNome == true ) {
 
                 try {
 
@@ -98,75 +102,59 @@ async function executarScript() {
 
                 if( validacaoCPF == true ) {
 
-                    await apagarElemento(camposFormulario[i].nome, camposFormulario[i].cpf)
+                    await apagarElemento( camposFormulario[i].nome, camposFormulario[i].cpf )
 
-                } else if( validacaoCPF == false ) {
+                    Status = await "OK"
+                    Observacao = await "Concluido com sucesso"
 
-                    camposLog.push({
-                        "nome": camposFormulario[i].nome,
-                        "cpf": camposFormulario[i].cpf,
-                        "Status": "NOK",
-                        "Observacao": "Nao foi possivel encontrar o cpf na pagina"
-                    })
+                } else if ( validacaoCPF == false ) {
 
-                    continue
+                    Status = "NOK"
+                    Observacao = "Nao foi possivel encontrar o cpf na pagina"
+
+                    throw await new Error('')
 
                 } else {
 
-                    camposLog.push({
-                        "nome": camposFormulario[i].nome,
-                        "cpf": camposFormulario[i].cpf,
-                        "Status": "NOK",
-                        "Observacao": "Algo de errado aconteceu"
-                    })
-
-                    continue
+                    throw new Error('')
 
                 }
 
             } else if ( validacaoNome == false ) {
 
-                camposLog.push({
-                    "nome": camposFormulario[i].nome,
-                    "cpf": camposFormulario[i].cpf,
-                    "Status": "NOK",
-                    "Observacao": "Nao foi possivel encontrar o nome na pagina"
-                })
+                Status = await "NOK"
+                Observacao = await "Nao foi possivel encontrar o nome na pagina"
 
-                continue
+                throw new Error('')
 
             } else {
 
-                camposLog.push({
-                    "nome": camposFormulario[i].nome,
-                    "cpf": camposFormulario[i].cpf,
-                    "Status": "NOK",
-                    "Observacao": "Algo de errado aconteceu"
-                })
-
-                continue
+                throw new Error('')
 
             }
 
             await navegador.sleep(1500)
 
-            camposLog.push( {
-                "nome"              :       camposFormulario[i].nome,
-                "cpf"               :       camposFormulario[i].cpf,
-                "Status"            :       "OK",
-                "Observacao"        :       "Concluido com sucesso"
-            } )
+        } catch (e) {
+
+            if( Observacao != "Nao foi possivel encontrar o cpf na pagina" &
+                Observacao != "Nao foi possivel encontrar o nome na pagina" ) {
+
+                Status = await "NOK"
+                Observacao = await "Algo de errado aconteceu"
+
+            }
+
+        } finally {
+
+            camposLog.push({
+                "nome": camposFormulario[i].nome,
+                "cpf": camposFormulario[i].cpf,
+                "Status": Status,
+                "Observacao": Observacao
+            })
 
         }
-
-    } catch( e ) {
-
-        camposLog.push( {
-            "nome"              :       camposFormulario[i].nome,
-            "cpf"               :       camposFormulario[i].cpf,
-            "Status"            :       "NOK",
-            "Observacao"        :       "Concluido com erro"
-        } )
 
     }
 
